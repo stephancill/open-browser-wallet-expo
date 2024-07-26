@@ -1,0 +1,13 @@
+diff --git a/node_modules/mipd/dist/cjs/utils.js b/node_modules/mipd/dist/cjs/utils.js
+index 3dbf2df..84c058c 100644
+--- a/node_modules/mipd/dist/cjs/utils.js
++++ b/node_modules/mipd/dist/cjs/utils.js
+@@ -10,7 +10,7 @@ function announceProvider(detail) {
+ }
+ exports.announceProvider = announceProvider;
+ function requestProviders(listener) {
+-    if (typeof window === 'undefined')
++    if (typeof window === 'undefined' || typeof window.addEventListener !== 'function')
+         return;
+     const handler = (event) => listener(event.detail);
+     window.addEventListener('eip6963:announceProvider', handler);
