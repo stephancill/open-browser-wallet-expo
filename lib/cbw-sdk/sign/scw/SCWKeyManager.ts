@@ -63,27 +63,31 @@ export class SCWKeyManager {
     const newKeyPair = await generateKeyPair();
     this.ownPrivateKey = newKeyPair.privateKey;
     this.ownPublicKey = newKeyPair.publicKey;
+
     await this.storeKey(OWN_PRIVATE_KEY, newKeyPair.privateKey);
     await this.storeKey(OWN_PUBLIC_KEY, newKeyPair.publicKey);
   }
 
   private async loadKeysIfNeeded() {
-    // if (this.ownPrivateKey === null) {
-    //   this.ownPrivateKey = await this.loadKey(OWN_PRIVATE_KEY);
-    // }
-    // if (this.ownPublicKey === null) {
-    //   this.ownPublicKey = await this.loadKey(OWN_PUBLIC_KEY);
-    // }
-    // if (this.ownPrivateKey === null || this.ownPublicKey === null) {
-    //   await this.generateKeyPair();
-    // }
-    // if (this.peerPublicKey === null) {
-    //   this.peerPublicKey = await this.loadKey(PEER_PUBLIC_KEY);
-    // }
-    // if (this.sharedSecret === null) {
-    //   if (this.ownPrivateKey === null || this.peerPublicKey === null) return;
-    //   this.sharedSecret = await deriveSharedSecret(this.ownPrivateKey, this.peerPublicKey);
-    // }
+    if (this.ownPrivateKey === null) {
+      this.ownPrivateKey = await this.loadKey(OWN_PRIVATE_KEY);
+    }
+    if (this.ownPublicKey === null) {
+      this.ownPublicKey = await this.loadKey(OWN_PUBLIC_KEY);
+    }
+    if (this.ownPrivateKey === null || this.ownPublicKey === null) {
+      await this.generateKeyPair();
+    }
+    if (this.peerPublicKey === null) {
+      this.peerPublicKey = await this.loadKey(PEER_PUBLIC_KEY);
+    }
+    if (this.sharedSecret === null) {
+      if (this.ownPrivateKey === null || this.peerPublicKey === null) return;
+      this.sharedSecret = await deriveSharedSecret(
+        this.ownPrivateKey,
+        this.peerPublicKey
+      );
+    }
   }
 
   // storage methods

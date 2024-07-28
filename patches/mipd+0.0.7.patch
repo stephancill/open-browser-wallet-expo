@@ -1,8 +1,8 @@
 diff --git a/node_modules/mipd/dist/cjs/utils.js b/node_modules/mipd/dist/cjs/utils.js
-index 3dbf2df..84c058c 100644
+index 3dbf2df..50497ea 100644
 --- a/node_modules/mipd/dist/cjs/utils.js
 +++ b/node_modules/mipd/dist/cjs/utils.js
-@@ -10,7 +10,7 @@ function announceProvider(detail) {
+@@ -10,12 +10,12 @@ function announceProvider(detail) {
  }
  exports.announceProvider = announceProvider;
  function requestProviders(listener) {
@@ -11,3 +11,11 @@ index 3dbf2df..84c058c 100644
          return;
      const handler = (event) => listener(event.detail);
      window.addEventListener('eip6963:announceProvider', handler);
+-    window.dispatchEvent(new CustomEvent('eip6963:requestProvider'));
+-    return () => window.removeEventListener('eip6963:announceProvider', handler);
++    // window.dispatchEvent(new CustomEvent('eip6963:requestProvider'));
++    // return () => window.removeEventListener('eip6963:announceProvider', handler);
+ }
+ exports.requestProviders = requestProviders;
+ //# sourceMappingURL=utils.js.map
+\ No newline at end of file

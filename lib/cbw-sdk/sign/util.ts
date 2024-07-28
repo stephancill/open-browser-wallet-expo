@@ -14,6 +14,7 @@ import {
 } from "@/lib/cbw-sdk/core/provider/interface";
 import { getCoinbaseInjectedSigner } from "@/lib/cbw-sdk/util/provider";
 import { ScopedLocalStorage } from "@/lib/cbw-sdk/util/ScopedLocalStorage";
+import * as Crypto from "expo-crypto";
 
 const SIGNER_TYPE_KEY = "SignerType";
 const storage = new ScopedLocalStorage("CBWSDK", "SignerConfigurator");
@@ -34,7 +35,7 @@ export async function fetchSignerType(params: {
   const { communicator, metadata } = params;
 
   const request: ConfigMessage & { id: MessageID } = {
-    id: crypto.randomUUID(),
+    id: Crypto.randomUUID() as MessageID,
     event: "selectSignerType",
     data: params.preference,
   };

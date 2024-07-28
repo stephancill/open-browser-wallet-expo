@@ -4,6 +4,7 @@ import { SCWStateManager } from "./SCWStateManager";
 import { Communicator } from "@/lib/cbw-sdk/core/communicator/Communicator";
 import { standardErrors } from "@/lib/cbw-sdk/core/error";
 import {
+  MessageID,
   RPCRequestMessage,
   RPCResponse,
   RPCResponseMessage,
@@ -17,7 +18,13 @@ import { Method } from "@/lib/cbw-sdk/core/provider/method";
 import { AddressString } from "@/lib/cbw-sdk/core/type";
 import { ensureIntNumber } from "@/lib/cbw-sdk/core/type/util";
 import { bytesToHex, stringToHex } from "viem";
-import { decryptContent } from "../../util/cipher";
+import {
+  decryptContent,
+  encryptContent,
+  exportKeyToHexString,
+  importKeyFromHexString,
+} from "../../util/cipher";
+import * as Crypto from "expo-crypto";
 
 type SwitchEthereumChainParam = [
   {
@@ -62,11 +69,11 @@ export class SCWSigner implements Signer {
 
     // store peer's public key
     if ("failure" in response.content) throw response.content.failure;
-    // const peerPublicKey = await importKeyFromHexString(
-    //   "public",
-    //   response.sender
-    // );
-    // await this.keyManager.setPeerPublicKey(peerPublicKey);
+    const peerPublicKey = await importKeyFromHexString(
+      "public",
+      response.sender
+    );
+    await this.keyManager.setPeerPublicKey(peerPublicKey);
 
     const decrypted = await this.decryptResponseMessage<AddressString[]>(
       response
@@ -136,25 +143,26 @@ export class SCWSigner implements Signer {
   private async sendEncryptedRequest(
     request: RequestArguments
   ): Promise<RPCResponseMessage> {
-    // const sharedSecret = await this.keyManager.getSharedSecret();
-    // if (!sharedSecret) {
-    //   throw standardErrors.provider.unauthorized(
-    //     "No valid session found, try requestAccounts before other methods"
-    //   );
-    // }
+    const sharedSecret = await this.keyManager.getSharedSecret();
+    if (!sharedSecret) {
+      throw standardErrors.provider.unauthorized(
+        "No valid session found, try requestAccounts before other methods"
+      );
+    }
 
-    // const encrypted = await encryptContent(
-    // {
-    //   action: request,
-    //   chainId: this.stateManager.activeChain.id,
-    // },
-    //   sharedSecret
-    // );
-    const message = await this.createRequestMessage({
-      plaintext: JSON.stringify({
+    const encrypted = await encryptContent(
+      {
         action: request,
         chainId: this.stateManager.activeChain.id,
-      }),
+      },
+      sharedSecret
+    );
+    const message = await this.createRequestMessage({
+      // plaintext: JSON.stringify({
+      //   action: request,
+      //   chainId: this.stateManager.activeChain.id,
+      // }),
+      encrypted,
     });
 
     return this.communicator.postRequestAndWaitForResponse(message);
@@ -163,13 +171,13 @@ export class SCWSigner implements Signer {
   private async createRequestMessage(
     content: RPCRequestMessage["content"]
   ): Promise<RPCRequestMessage> {
-    // const publicKey = await exportKeyToHexString(
-    //   "public",
-    //   await this.keyManager.getOwnPublicKey()
-    // );
+    const publicKey = await exportKeyToHexString(
+      "public",
+      await this.keyManager.getOwnPublicKey()
+    );
     return {
-      id: crypto.randomUUID(),
-      sender: stringToHex(""),
+      id: Crypto.randomUUID() as MessageID,
+      sender: publicKey,
       content,
       timestamp: new Date(),
     };

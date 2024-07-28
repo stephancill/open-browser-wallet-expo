@@ -7,6 +7,7 @@ import {
   usePublicClient,
   useSignMessage,
 } from "wagmi";
+import * as WebBrowser from "expo-web-browser";
 
 function App() {
   const account = useAccount();
@@ -39,7 +40,6 @@ function App() {
           <Button title="Disconnect" onPress={() => disconnect()} />
         )}
       </View>
-
       <View style={styles.section}>
         <Text style={styles.heading}>Connect</Text>
         {!account.address &&

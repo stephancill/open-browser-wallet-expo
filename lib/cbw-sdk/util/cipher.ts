@@ -33,7 +33,7 @@ export async function deriveSharedSecret(
       name: "AES-GCM",
       length: 256,
     },
-    false,
+    true,
     ["encrypt", "decrypt"]
   );
 }
@@ -52,7 +52,7 @@ export async function encrypt(
     new TextEncoder().encode(plainText)
   );
 
-  return { iv, cipherText };
+  return { iv, cipherText: new Uint8Array(cipherText) };
 }
 
 export async function decrypt(
@@ -62,10 +62,10 @@ export async function decrypt(
   const plainText = await crypto.subtle.decrypt(
     {
       name: "AES-GCM",
-      iv,
+      iv: new Uint8Array(iv),
     },
     sharedSecret,
-    Buffer.from(cipherText)
+    Buffer.from(new Uint8Array(cipherText))
   );
 
   return new TextDecoder().decode(plainText);
@@ -120,6 +120,7 @@ export async function encryptContent<T>(
       message: error.message,
     };
   });
+
   return encrypt(sharedSecret, serialized);
 }
 

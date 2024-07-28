@@ -33,7 +33,12 @@ export class Communicator {
    */
   postMessage = async (message: Message) => {
     const url = new URL(this.url.toString());
-    url.searchParams.set("message", JSON.stringify({ data: message }));
+    url.searchParams.set(
+      "message",
+      JSON.stringify({ data: message }, (key, value) =>
+        value instanceof Uint8Array ? Array.from(value) : value
+      )
+    );
     url.searchParams.set("callbackUrl", this.callbackUrl);
 
     // const popup = await this.waitForPopupLoaded();
