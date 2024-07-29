@@ -52,7 +52,7 @@ export async function encrypt(
     new TextEncoder().encode(plainText)
   );
 
-  return { iv, cipherText: new Uint8Array(cipherText) };
+  return { iv, cipherText };
 }
 
 export async function decrypt(

@@ -29,7 +29,8 @@ export const config = createConfig({
     coinbaseWallet({
       preference: "smartWalletOnly",
       callbackUrl: redirectUri,
-      keysUrl: "http://localhost:3005/callback",
+      // keysUrl: "http://localhost:3004/callback",
+      keysUrl: "https://browser-wallet-gateway.vercel.app/callback",
     }),
   ],
   transports: {

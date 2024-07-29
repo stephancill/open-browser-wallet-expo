@@ -1,9 +1,9 @@
-import { LIB_VERSION } from "../../version";
-import { ConfigMessage, Message, MessageID } from "../message";
 import { CB_KEYS_URL } from "@/lib/cbw-sdk/core/constants";
 import { standardErrors } from "@/lib/cbw-sdk/core/error";
-import { closePopup, openPopup } from "@/lib/cbw-sdk/util/web";
+import { closePopup } from "@/lib/cbw-sdk/util/web";
 import * as WebBrowser from "expo-web-browser";
+import { replacer, reviver } from "../../util/json";
+import { Message, MessageID } from "../message";
 
 /**
  * Communicates with a popup window for Coinbase keys.coinbase.com (or another url)
@@ -35,14 +35,10 @@ export class Communicator {
     const url = new URL(this.url.toString());
     url.searchParams.set(
       "message",
-      JSON.stringify({ data: message }, (key, value) =>
-        value instanceof Uint8Array ? Array.from(value) : value
-      )
+      JSON.stringify({ data: message }, replacer)
     );
     url.searchParams.set("callbackUrl", this.callbackUrl);
 
-    // const popup = await this.waitForPopupLoaded();
-    // popup.postMessage(message, this.url.origin);
     const result = await WebBrowser.openAuthSessionAsync(url.toString());
     return result;
   };
@@ -60,11 +56,14 @@ export class Communicator {
     if (result.type === "success") {
       const resultUrl = new URL(result.url);
       if (resultUrl.searchParams.has("message")) {
-        const message = JSON.parse(resultUrl.searchParams.get("message")!);
+        const message = JSON.parse(
+          resultUrl.searchParams.get("message")!,
+          reviver
+        );
         return message as M;
       }
     }
-    throw standardErrors.rpc.internal();
+    throw standardErrors.rpc.internal("aaaa");
   };
 
   /**

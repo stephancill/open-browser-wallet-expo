@@ -54,7 +54,7 @@ function version4(parameters: Version4Parameters) {
 
   return createConnector<Provider>((config) => ({
     id: "coinbaseWalletSDK",
-    name: "Open Browser Wallet",
+    name: "Coinbase Wallet SDK",
     supportsSimulation: true,
     type: coinbaseWallet.type,
     async connect({ chainId } = {}) {

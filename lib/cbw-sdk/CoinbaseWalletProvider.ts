@@ -84,8 +84,8 @@ export class CoinbaseWalletProvider
         return this.accounts;
       }
 
-      const signerType = await this.requestSignerSelection();
-      const signer = this.initSigner(signerType);
+      const signerType = "scw"; // await this.requestSignerSelection();
+      const signer = this.initSigner("scw");
       const accounts = await signer.handshake();
 
       this.signer = signer;

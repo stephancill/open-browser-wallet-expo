@@ -46,7 +46,7 @@ function App() {
           connectors.map((connector) => (
             <Button
               key={connector.uid}
-              title={connector.name}
+              title="Connect Wallet"
               onPress={() => connect({ connector })}
             />
           ))}
