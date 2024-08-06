@@ -4092,10 +4092,10 @@ co@^4.6.0:
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
   integrity sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==
 
-coinbase-wallet-sdk-react-native@4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/coinbase-wallet-sdk-react-native/-/coinbase-wallet-sdk-react-native-4.0.4.tgz#9858bbd339303c223128ae0acee10d4a397d015b"
-  integrity sha512-PJGVwCAy7M3MkhLPwb0aswoHxhJO83bSCRz9gshQ4BJyoQxZXxxOD+L/QGT4q4QCH0laqPcymv2oTKFu1Pf2jw==
+coinbase-wallet-sdk-react-native@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/coinbase-wallet-sdk-react-native/-/coinbase-wallet-sdk-react-native-4.0.6.tgz#c467a5ffbd87c99afba46f319d8b0eed50318d1b"
+  integrity sha512-hED6tfP7RJv9/2+/bx1z6U2iEf6d+cyBe5HExCK9yAMLixVKguNkWCiZgRdbotk+n/pejcgxC4ea0ehu4IL3gQ==
   dependencies:
     buffer "^6.0.3"
     clsx "^1.2.1"

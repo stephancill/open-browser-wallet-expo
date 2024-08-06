@@ -1,23 +1,23 @@
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { coinbaseWallet } from "@/lib/wagmi/connector";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createConfig, http } from "@wagmi/core";
 import { base } from "@wagmi/core/chains";
+import { makeRedirectUri } from "expo-auth-session";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { coinbaseWallet } from "@/lib/wagmi/connector";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider } from "wagmi";
-import { makeRedirectUri } from "expo-auth-session";
 import PolyfillCrypto from "react-native-webview-crypto";
+import { WagmiProvider } from "wagmi";
 import { WebBrowserCommunicator } from "../lib/Communicator";
+import { getTypedMMKVStorage } from "../lib/wagmi/storage";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -29,13 +29,15 @@ const communicator = new WebBrowserCommunicator(
   redirectUri
 );
 
+const storage = getTypedMMKVStorage();
+
 export const config = createConfig({
   chains: [base],
   connectors: [
     coinbaseWallet({
       preference: "smartWalletOnly",
       keysUrl: "", // Not necessary when passing our own communicator
-      appLogoUrl: "https://example.com/favicon.ico",
+      appLogoUrl: "https://example.com/favicon.ico", // Required otherwise it will try to scrape the favicon which will fail in react native
       appName: "Expo Smart Wallet",
       communicator,
     }),
@@ -43,6 +45,7 @@ export const config = createConfig({
   transports: {
     [base.id]: http(),
   },
+  storage,
 });
 
 const queryClient = new QueryClient();

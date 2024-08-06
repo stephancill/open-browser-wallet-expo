@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
+    backgroundColor: "#fff",
   },
   section: {
     marginBottom: 20,
