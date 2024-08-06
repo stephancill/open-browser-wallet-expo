@@ -826,8 +826,7 @@
 
 "@coinbase/wallet-sdk@4.0.4":
   version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@coinbase/wallet-sdk/-/wallet-sdk-4.0.4.tgz#634cd89bac93eeaf381a1f026476794e53431ed6"
-  integrity sha512-74c040CRnGhfRjr3ArnkAgud86erIqdkPHNt5HR1k9u97uTIZCJww9eGYT67Qf7gHPpGS/xW8Be1D4dvRm63FA==
+  resolved "file:./coinbase-wallet-sdk-v4.0.4.tgz#8799d69f46e0a6e2d2bad3f86b7785bf3e564040"
   dependencies:
     buffer "^6.0.3"
     clsx "^1.2.1"
@@ -4092,6 +4091,18 @@ co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
   integrity sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==
+
+coinbase-wallet-sdk-react-native@4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/coinbase-wallet-sdk-react-native/-/coinbase-wallet-sdk-react-native-4.0.4.tgz#9858bbd339303c223128ae0acee10d4a397d015b"
+  integrity sha512-PJGVwCAy7M3MkhLPwb0aswoHxhJO83bSCRz9gshQ4BJyoQxZXxxOD+L/QGT4q4QCH0laqPcymv2oTKFu1Pf2jw==
+  dependencies:
+    buffer "^6.0.3"
+    clsx "^1.2.1"
+    eventemitter3 "^5.0.1"
+    keccak "^3.0.3"
+    preact "^10.16.0"
+    sha.js "^2.4.11"
 
 collect-v8-coverage@^1.0.0:
   version "1.0.2"

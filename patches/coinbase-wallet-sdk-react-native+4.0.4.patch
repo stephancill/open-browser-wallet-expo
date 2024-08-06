@@ -1,0 +1,13 @@
+diff --git a/node_modules/coinbase-wallet-sdk-react-native/dist/util/cipher.js b/node_modules/coinbase-wallet-sdk-react-native/dist/util/cipher.js
+index f715985..c3ca1c5 100644
+--- a/node_modules/coinbase-wallet-sdk-react-native/dist/util/cipher.js
++++ b/node_modules/coinbase-wallet-sdk-react-native/dist/util/cipher.js
+@@ -22,7 +22,7 @@ async function deriveSharedSecret(ownPrivateKey, peerPublicKey) {
+     }, ownPrivateKey, {
+         name: 'AES-GCM',
+         length: 256,
+-    }, false, ['encrypt', 'decrypt']);
++    }, true, ['encrypt', 'decrypt']);
+ }
+ async function encrypt(sharedSecret, plainText) {
+     const iv = crypto.getRandomValues(new Uint8Array(12));

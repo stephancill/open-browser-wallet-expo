@@ -1,21 +1,19 @@
-import { CoinbaseWalletParameters } from "@wagmi/connectors";
 import {
   ChainNotConfiguredError,
-  type Connector,
   createConnector,
+  type Connector,
 } from "@wagmi/core";
-import type { Compute, Mutable, Omit } from "@wagmi/core/internal";
+import type { Mutable, Omit } from "@wagmi/core/internal";
+import CoinbaseWalletSDK, { Preference, ProviderInterface } from "coinbase-wallet-sdk-react-native";
 import {
-  type AddEthereumChainParameter,
-  type Hex,
-  type ProviderRpcError,
   SwitchChainError,
   UserRejectedRequestError,
   getAddress,
   numberToHex,
+  type AddEthereumChainParameter,
+  type Hex,
+  type ProviderRpcError,
 } from "viem";
-import { CoinbaseWalletSDK } from "../CoinbaseWalletSDK";
-import { Preference, ProviderInterface } from "../core/provider/interface";
 
 type Version4Parameters = Mutable<
   Omit<
@@ -28,7 +26,8 @@ type Version4Parameters = Mutable<
      */
     preference?: Preference["options"] | undefined;
     keysUrl?: string;
-    callbackUrl: string;
+  } & {
+    communicator: ConstructorParameters<typeof CoinbaseWalletSDK>[1];
   }
 >;
 
@@ -142,7 +141,7 @@ function version4(parameters: Version4Parameters) {
         sdk = new CoinbaseWalletSDK({
           ...parameters,
           appChainIds: config.chains.map((x) => x.id),
-        });
+        }, parameters.communicator);
 
         walletProvider = sdk.makeWeb3Provider({
           ...parameters,
